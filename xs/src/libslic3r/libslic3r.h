@@ -9,6 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <boost/thread.hpp>
+#include <cstdint>
 
 /* Implementation of CONFESS("foo"): */
 #ifdef _MSC_VER
@@ -36,10 +37,24 @@ void confess_at(const char *file, int line, const char *func, const char *pat, .
 #define __TRANS(s) s
 namespace Slic3r {
 
-constexpr auto SLIC3R_VERSION = "1.3.0-dev";
+constexpr auto SLIC3R_VERSION = "1.3.1-dev";
 
+#ifndef SLIC3RXS
+#ifndef SLIC3R_BUILD_COMMIT
+#define SLIC3R_BUILD_COMMIT (Unknown revision)
+#endif 
+#define VER1_(x) #x
+#define VER_(x) VER1_(x)
+#define BUILD_COMMIT VER_(SLIC3R_BUILD_COMMIT)
+#endif
+
+#ifdef _WIN32
+typedef int64_t coord_t;
+typedef double coordf_t;
+#else 
 typedef long coord_t;
 typedef double coordf_t;
+#endif
 
 // Scaling factor for a conversion from coord_t to coordf_t: 10e-6
 // This scaling generates a following fixed point representation with for a 32bit integer:

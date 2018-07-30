@@ -19,7 +19,7 @@
 #define slic3r_PrintConfig_hpp_
 
 #include "libslic3r.h"
-#include "Config.hpp"
+#include "ConfigBase.hpp"
 
 #define OPT_PTR(KEY) if (opt_key == #KEY) return &this->KEY
 
@@ -181,6 +181,8 @@ class PrintObjectConfig : public virtual StaticPrintConfig
     ConfigOptionFloat               support_material_interface_spacing;
     ConfigOptionFloatOrPercent      support_material_interface_speed;
     ConfigOptionEnum<SupportMaterialPattern> support_material_pattern;
+    ConfigOptionFloat               support_material_pillar_size;
+    ConfigOptionFloat               support_material_pillar_spacing;
     ConfigOptionFloat               support_material_spacing;
     ConfigOptionFloat               support_material_speed;
     ConfigOptionFloatOrPercent      support_material_threshold;
@@ -219,6 +221,8 @@ class PrintObjectConfig : public virtual StaticPrintConfig
         OPT_PTR(support_material_interface_spacing);
         OPT_PTR(support_material_interface_speed);
         OPT_PTR(support_material_pattern);
+        OPT_PTR(support_material_pillar_size);
+        OPT_PTR(support_material_pillar_spacing);
         OPT_PTR(support_material_spacing);
         OPT_PTR(support_material_speed);
         OPT_PTR(support_material_threshold);
@@ -251,6 +255,8 @@ class PrintRegionConfig : public virtual StaticPrintConfig
     ConfigOptionInt                 infill_every_layers;
     ConfigOptionFloatOrPercent      infill_overlap;
     ConfigOptionFloat               infill_speed;
+    ConfigOptionFloat               min_shell_thickness;
+    ConfigOptionFloat               min_top_bottom_shell_thickness;
     ConfigOptionBool                overhangs;
     ConfigOptionInt                 perimeter_extruder;
     ConfigOptionFloatOrPercent      perimeter_extrusion_width;
@@ -292,6 +298,7 @@ class PrintRegionConfig : public virtual StaticPrintConfig
         OPT_PTR(infill_every_layers);
         OPT_PTR(infill_overlap);
         OPT_PTR(infill_speed);
+        OPT_PTR(min_shell_thickness);
         OPT_PTR(overhangs);
         OPT_PTR(perimeter_extruder);
         OPT_PTR(perimeter_extrusion_width);
@@ -308,7 +315,8 @@ class PrintRegionConfig : public virtual StaticPrintConfig
         OPT_PTR(top_infill_pattern);
         OPT_PTR(top_solid_infill_speed);
         OPT_PTR(top_solid_layers);
-        
+        OPT_PTR(min_top_bottom_shell_thickness);
+
         return NULL;
     };
 };
@@ -330,6 +338,7 @@ class GCodeConfig : public virtual StaticPrintConfig
     ConfigOptionStrings             filament_notes;
     ConfigOptionBool                gcode_comments;
     ConfigOptionEnum<GCodeFlavor>   gcode_flavor;
+    ConfigOptionBool                label_printed_objects;
     ConfigOptionString              layer_gcode;
     ConfigOptionFloat               max_print_speed;
     ConfigOptionFloat               max_volumetric_speed;
@@ -373,6 +382,7 @@ class GCodeConfig : public virtual StaticPrintConfig
         OPT_PTR(filament_notes);
         OPT_PTR(gcode_comments);
         OPT_PTR(gcode_flavor);
+        OPT_PTR(label_printed_objects);
         OPT_PTR(layer_gcode);
         OPT_PTR(max_print_speed);
         OPT_PTR(max_volumetric_speed);

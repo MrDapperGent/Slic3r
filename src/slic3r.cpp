@@ -1,4 +1,4 @@
-#include "Config.hpp"
+#include "ConfigBase.hpp"
 #include "Geometry.hpp"
 #include "IO.hpp"
 #include "Model.hpp"
@@ -15,9 +15,12 @@
 #include <boost/nowide/iostream.hpp>
 
 
-using namespace Slic3r;
+#ifdef USE_WX
+    #include "GUI/GUI.hpp"
+#endif
 
-void confess_at(const char *file, int line, const char *func, const char *pat, ...){}
+
+using namespace Slic3r;
 
 int
 main(int argc, char **argv)
@@ -39,7 +42,13 @@ main(int argc, char **argv)
     cli_config.apply(config, true);
     
     DynamicPrintConfig print_config;
+
+#ifdef USE_WX
+    GUI::App *gui = new GUI::App();
     
+    GUI::App::SetInstance(gui);
+    wxEntry(argc, argv);
+#endif    
     // load config files supplied via --load
     for (const std::string &file : cli_config.load.values) {
         if (!boost::filesystem::exists(file)) {

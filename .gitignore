@@ -16,3 +16,13 @@ package/osx/Slic3r*.app
 *.dmg
 *.swp
 *.swo
+CMakeFiles
+*.orig
+*.a
+core
+CMakeCache.txt
+*.cmake
+*.exe
+src/test/test_options.hpp
+src/slic3r
+build/*
